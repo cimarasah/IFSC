@@ -1,37 +1,67 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.io.FileWriter;
 
-public class LoggerThread extends Thread {
+public class LoggerThread implements Runnable {
 	
-	private static LoggerThread instance = new LoggerThread();
-	private BlockingQueue<String> itemsToLog = new ArrayBlockingQueue<String>(100);
+	private static String file;
+
+	private LinkedBlockingQueue queue;
 	private static final String SHUTDOWN_REQ = "SHUTDOWN";
 	private volatile boolean shuttingDown, loggerTerminated;
+	private BufferedWriter bw;
+	private boolean Writing;
 
 	public void run() {
 		try {
 			String item;
-			while ((item = itemsToLog.take()) != SHUTDOWN_REQ) {
-				System.out.println(item);
+			while ((item = (String) queue.take()) != SHUTDOWN_REQ) {
+				writeToLog(item);
 			}
 		} catch (InterruptedException iex) {
 		} finally {
 			loggerTerminated = true;
 		}
 	}
-	public static LoggerThread getLogger() {
-		if(instance == null){
-			instance = new LoggerThread();			
-		}
-		return instance;
+	
+	
+	public LoggerThread(String fileLogName, LinkedBlockingQueue queue){
+	    
+	    try {
+	    	this.queue = queue;
+	        new File(file).createNewFile();
+	    } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
+
+
 	}
-	private LoggerThread() {
-		start();
+	private void writeToLog(String item){
+	    try{
+	        Writing = true;
+
+	        bw = new BufferedWriter(new FileWriter(file, true));
+	    while(!queue.isEmpty()){
+
+	            bw.write(item);
+	            bw.newLine();
+
+	    }
+
+	    bw.flush();
+	    bw.close();
+	    Writing = false;
+	    }catch(Exception e){Writing = false; e.printStackTrace();}
 	}
 	public void putMessage(String str) {
 	    if (shuttingDown || loggerTerminated) return;
 	    try {
-	      itemsToLog.put(str);
+	    	queue.put(str);
 	    } catch (InterruptedException iex) {
 	      Thread.currentThread().interrupt();
 	      throw new RuntimeException("Unexpected interruption");
@@ -39,6 +69,6 @@ public class LoggerThread extends Thread {
 	  }
 	public void shutDown() throws InterruptedException {
 		  shuttingDown = true;
-		  itemsToLog.put(SHUTDOWN_REQ);
+		  queue.put(SHUTDOWN_REQ);
 		}
 }

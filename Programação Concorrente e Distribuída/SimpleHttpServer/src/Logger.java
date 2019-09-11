@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import javax.swing.JOptionPane;
 
 /*
@@ -12,8 +15,9 @@ import javax.swing.JOptionPane;
 public class Logger {
 	
 	private static Logger instance = null;
-	private static LoggerThread Log;
+	private LoggerThread Log;
 	private final static String logFileName = "serverlog.txt";
+	private LinkedBlockingQueue queue;
 	
 	// incluir campos necessarios
 	
@@ -27,7 +31,11 @@ public class Logger {
 	}
 	
 	private Logger(){
-		LoggerThread.getLogger();
+		//LoggerThread.getLogger(logFileName);
+		queue = new LinkedBlockingQueue<>();
+		Log = new LoggerThread(logFileName,queue);
+		Thread th = new Thread(Log);
+		th.start();
 	}
 	
 	public void putMessage(String message){
