@@ -3,11 +3,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import javax.swing.JTextArea;
+
 public class Receiver implements Runnable{
 
 	private int port = 5555;
 	private static DatagramSocket aSocket;	
-
+	JTextArea  textConversa;
+	public Receiver(JTextArea  textConversa) {
+		this.textConversa = textConversa;
+	}
 	@Override
 	public void run() {
 		try {
@@ -22,8 +27,10 @@ public class Receiver implements Runnable{
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 				aSocket.receive(request);
 				String msg = new String(request.getData());
-				//msg = msg.substring(0, request.getLength());
 				System.out.println("Mensagem Recebida:"+ msg);
+				textConversa.setText(textConversa.getText()+"\n"+msg );
+				//msg = msg.substring(0, request.getLength());
+				
 			} catch (SocketException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

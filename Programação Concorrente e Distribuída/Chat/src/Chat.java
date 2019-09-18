@@ -1,18 +1,21 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class Chat extends JFrame {
 	JButton btnParceiro = new JButton("Conectar");
 	JTextField textParceiro = new JTextField();
-	JTextField textMsg = new JTextField();
+	JTextArea  textMsg = new JTextArea();
+	static JTextArea  textConversa = new JTextArea();
 	JButton btnEviar = new JButton("Enviar");
+	JLabel labelApelido = new JLabel();
+	JTextField textApelido = new JTextField();
 	Sender send;
 	Thread rec;
 	public static void main(String[] args) {
@@ -26,17 +29,28 @@ public class Chat extends JFrame {
 		//		
 		//		Thread send = new Thread(new Sender(texto));
 		//		send.start();
-		//		Thread rec = new Thread(new Receiver());
-		//		rec.start();
+//				Thread rec = new Thread(new Receiver(textConversa));
+//				rec.start();
 
 	}
 	public Chat() 
 	{
-		setSize(600, 400);       
+		setSize(600, 800);       
 		setTitle("Sistema "); 
 
 		JPanel painel = new JPanel();
 		painel.setLayout(null);        
+
+		//label
+		
+		labelApelido = new JLabel("Apelido");
+		painel.add(labelApelido);
+		labelApelido.setBounds(15, 35, 300, 55);
+
+		//text        
+
+		painel.add(textApelido);
+		textApelido.setBounds(120, 50, 120, 25);
 
 		//label
 		JLabel label = new JLabel();
@@ -47,7 +61,7 @@ public class Chat extends JFrame {
 		//text        
 
 		painel.add(textParceiro);
-		textParceiro.setBounds(120, 20, 120, 25);
+		textParceiro.setBounds(120, 20, 150, 25);
 
 
 		btnParceiro.addActionListener( new ActionListener() {
@@ -61,7 +75,7 @@ public class Chat extends JFrame {
 					if(!text.isEmpty()) {
 						send = new Sender(text);
 
-						rec = new Thread(new Receiver());
+						rec = new Thread(new Receiver(textConversa));
 						rec.start();
 						System.out.println("Conectado com IP: "+ text);
 					}
@@ -70,11 +84,14 @@ public class Chat extends JFrame {
 
 			}});
 		painel.add(btnParceiro);
-		btnParceiro.setBounds(250, 20, 100, 25);
+		btnParceiro.setBounds(300, 20, 100, 25);
+
+		painel.add(textConversa);
+		textConversa.setBounds(30, 80, 400, 400);
 
 
 		painel.add(textMsg);
-		textMsg.setBounds(120, 100, 300, 100);
+		textMsg.setBounds(30, 500, 400, 80);
 
 
 		btnEviar.addActionListener( new ActionListener() {
@@ -85,15 +102,16 @@ public class Chat extends JFrame {
 
 				if(obj==btnEviar){
 					String text = textMsg.getText();
+					
 					if(!text.isEmpty()) {
-						send.enviar(text);
+						send.enviar(textApelido.getText()+": "+text);
 						textMsg.setText("");
 					}
 				}
 
 			}});
 		painel.add(btnEviar);
-		btnEviar.setBounds(250, 250, 100, 25);
+		btnEviar.setBounds(250, 700, 100, 25);
 
 		add(painel);
 
