@@ -102,9 +102,10 @@ public class Chat extends JFrame {
 
 				if(obj==btnEviar){
 					String text = textMsg.getText();
-					
+					String msg;
 					if(!text.isEmpty()) {
-						send.enviar(textApelido.getText()+": "+text);
+						msg = textApelido.getText()+": "+text;
+						send.enviar(msg);
 						textMsg.setText("");
 					}
 				}

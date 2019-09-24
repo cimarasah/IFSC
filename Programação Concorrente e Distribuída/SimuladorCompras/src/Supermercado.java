@@ -1,24 +1,40 @@
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+
+import Model.Produto;
 
 public class Supermercado {
-
-	static HashMap<String, Double> listaProdutos = new HashMap<String, Double>();
+	
+	static List<Produto> listaProdutos = new ArrayList<Produto>();
+	static List<Produto> produtosEscolhidos = new ArrayList<Produto>();
 	public static void main(String[] args) {
 		carregarEstoque();
 		
 
 	}
 	private static void carregarEstoque() {
-		listaProdutos.put("Arroz", 2.00);
-		listaProdutos.put("Feijão", 1.00);
-		listaProdutos.put("Farinha", 4.00);
-		listaProdutos.put("Batata", 1.00);
-		listaProdutos.put("Pimentão", 1.00);
-		listaProdutos.put("Margarina", 5.00);
-		listaProdutos.put("Detergente", 1.00);
-		listaProdutos.put("Sabão", 12.00);
-		listaProdutos.put("Amaciante", 7.00);
-		listaProdutos.put("Sabonete", 3.00);
+		
+		Produto produto = new Produto("Arroz", 2.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Feijão", 1.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Farinha", 4.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Batata", 1.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Pimentão", 1.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Margarina", 5.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Detergente", 1.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Sabão", 12.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Amaciante", 7.00);
+		listaProdutos.add(produto);
+		produto = new Produto("Sabonete", 3.00);
+		listaProdutos.add(produto);
 	}
 
+	
 }

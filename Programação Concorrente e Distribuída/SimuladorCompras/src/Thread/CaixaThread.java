@@ -15,7 +15,10 @@ public class CaixaThread implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		for ( int count = 1; count <= 10; count++ ) 
+	      {
+			
+	      }
 		
 	}
 }
