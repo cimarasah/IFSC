@@ -1,17 +1,24 @@
 package Buffer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import Model.Produto;
+
 public class RampaSemaphoreBuffer implements Buffer{
+	private Produto buffer = null;
 
+	private SimpleDateFormat formato = new SimpleDateFormat("HH:mm:ss");
 	@Override
-	public void set(int value) {
-		// TODO Auto-generated method stub
+	public void set(Produto prod) {
 		
+		
+		buffer = prod;
 	}
 
 	@Override
-	public int get() {
-		// TODO Auto-generated method stub
-		return 0;
+	public Produto get() {
+		
+		return buffer;
 	}
-
 }

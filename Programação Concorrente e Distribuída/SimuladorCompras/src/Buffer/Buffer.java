@@ -1,6 +1,8 @@
 package Buffer;
 
+import Model.Produto;
+
 public interface Buffer {
-	public void set( int value ); 
-	public int get();
+	public void set( Produto prod ); 
+	public Produto get();
 }

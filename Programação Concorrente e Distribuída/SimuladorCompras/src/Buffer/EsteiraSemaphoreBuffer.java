@@ -1,17 +1,26 @@
 package Buffer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import Model.Produto;
+
 public class EsteiraSemaphoreBuffer implements Buffer{
 
+	private Produto buffer = null;
+	private SimpleDateFormat formato = new SimpleDateFormat("HH:mm:ss");
 	@Override
-	public void set(int value) {
+	public void set(Produto prod) {
 		
+		System.out.println("-Comprador: ["+formato.format(new Date())+"]  Colocando item "+ prod.nome +" no esteira " );
 		
+		buffer = prod;
 	}
 
 	@Override
-	public int get() {
+	public Produto get() {
 		
-		return 0;
+		return buffer;
 	}
 
 }

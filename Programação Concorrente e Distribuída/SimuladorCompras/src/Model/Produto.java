@@ -5,7 +5,9 @@ public class Produto {
 	public String nome;
 	public double valor;
 	
-	
+	public Produto() {
+		
+	}
 	public Produto(String nome, double valor) {
 		super();
 		this.nome = nome;
